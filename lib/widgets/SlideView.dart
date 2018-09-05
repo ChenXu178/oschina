@@ -68,7 +68,7 @@ class SlideViewState extends State<SlideView> with SingleTickerProviderStateMixi
                 child: Padding(
                   padding: EdgeInsets.all(6.0),
                   // 字体大小为15，颜色为白色
-                  child: Text(title,style: TextStyle(color:Colors.white,fontSize: 6.0)),
+                  child: Text(title,style: TextStyle(color:Colors.white,fontSize: 14.0)),
                 ),
               )
             ],

@@ -65,6 +65,144 @@ class NewsListPage extends StatelessWidget{
     if(i.isOdd)return Divider(height: 1.0);
     // 将i取整
     i = i ~/ 2;
+    // 得到列表item的数据
+    var itemData = listData[i];
+    // 代表列表item中的标题这一行
+    var titleRow = Row(
+      children: <Widget>[
+        Expanded(
+          child: Text(itemData["title"],style: titleTextStyle),
+        )
+      ],
+    );
+    // 时间这一行包含了作者头像、时间、评论数这几个
+    var timeRow = Row(
+      children: <Widget>[
+        // 这是作者头像，使用了圆形头像
+        Container(
+          width: 20.0,
+          height: 20.0,
+          // 通过指定shape属性设置图片为圆形
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Color(0xFFECECEC),
+            image: DecorationImage(
+              image: NetworkImage(itemData["authorImg"]),
+              fit: BoxFit.cover
+            ),
+            border: Border.all(
+              color: Color(0xFFECECEC),
+              width: 2.0
+            )
+          ),
+        ),
+        // 这是时间文本
+        Container(
+          margin: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+          child: Text(
+              itemData["timeStr"],
+              style: subtitleStyle
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Text(
+                "${itemData["commCount"]}",
+                style: subtitleStyle,
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                child: Image.asset(
+                  "./images/ic_comment.png",
+                  width: 16.0,
+                  height: 16.0,
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+    var thumbImgUrl = itemData["thumb"];
+    // 这是item右侧的资讯图片，先设置一个默认的图片
+    var thumbImg = Container(
+      margin: const EdgeInsets.all(10.0),
+      width: 60.0,
+      height: 60.0,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Color(0xFFECECEC),
+        image: DecorationImage(
+          image: ExactAssetImage("./images/ic_img_default.jpg"),
+          fit: BoxFit.cover
+        ),
+        border: Border.all(
+          color: Color(0xFFECECEC),
+          width: 2.0
+        )
+      ),
+    );
+    // 如果上面的thumbImgUrl不为空，就把之前thumbImg默认的图片替换成网络图片
+    if(thumbImgUrl != null && thumbImgUrl.length > 0){
+      thumbImg = Container(
+        margin: const EdgeInsets.all(10.0),
+        width: 60.0,
+        height: 60.0,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFFECECEC),
+          image: DecorationImage(
+            image: NetworkImage(thumbImgUrl),
+            fit: BoxFit.cover
+          ),
+          border: Border.all(
+            color: Color(0xFFECECEC),
+            width: 2.0
+          )
+        ),
+      );
+    }
+    // 这里的row代表了一个ListItem的一行
+    var row = Row(
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+            child: Column(
+              children: <Widget>[
+                titleRow,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                  child: timeRow,
+                )
+              ],
+            ),
+          ),
+        ),
+        // 右边是资讯图片
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Container(
+            width: 100.0,
+            height: 80.0,
+            color: const Color(0xFFECECEC),
+            child: Center(
+              child: thumbImg,
+            ),
+          ),
+        )
+      ],
+    );
+    return InkWell(
+      child: row,
+      onTap: (){
+
+      },
+    );
   }
 
 }
